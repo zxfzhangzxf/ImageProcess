@@ -12,27 +12,33 @@ import android.os.Build.VERSION_CODES.N
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.android.imageprocess.databinding.ActivityCameraAlbumBinding
+import com.android.imageprocess.logic.util.getCurrentTime
 import com.android.imageprocess.logic.util.rotateBitmap
 import com.android.imageprocess.ui.login.ImageViewModel
 import java.io.File
+import java.time.LocalDateTime
 
 class CameraAlbumActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraAlbumBinding
 
     val viewModel by lazy { ViewModelProvider(this).get(ImageViewModel::class.java) }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraAlbumBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+
 
         val UserAccount = intent.getStringExtra("UserAccount")
         //设置导航栏
@@ -47,7 +53,10 @@ class CameraAlbumActivity : AppCompatActivity() {
         }
         //打开相机拍照按钮的监听
         binding.btnTakephoto.setOnClickListener {
-            viewModel.outputImage = File(externalCacheDir, "output_image.jpg")
+            //val fileName = (0 until 1000).random().toString() + (0 until 1000).random().toString() + "_image.jpg"
+            viewModel.imageName = getCurrentTime() + "_image.jpg"
+            Log.d("CameraAlbumActivity",viewModel.imageName)
+            viewModel.outputImage = File(externalCacheDir, viewModel.imageName)
             if (viewModel.outputImage.exists()) {
                 viewModel.outputImage.delete()
             }
@@ -84,6 +93,8 @@ class CameraAlbumActivity : AppCompatActivity() {
                     val bitmap = BitmapFactory.decodeStream(
                         contentResolver.openInputStream(viewModel.imageUri)
                     )
+                    //将拍摄图片保存至系统图库
+                    MediaStore.Images.Media.insertImage(contentResolver,bitmap,viewModel.imageName,null)
                     binding.ivShow.setImageBitmap(rotateIfRequired(bitmap))
                 }
             }
