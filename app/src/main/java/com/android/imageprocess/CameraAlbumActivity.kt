@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.ExifInterface
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Build.VERSION_CODES.N
 import androidx.appcompat.app.AppCompatActivity
@@ -16,25 +17,30 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.imageprocess.databinding.ActivityCameraAlbumBinding
+import com.android.imageprocess.logic.model.Background
 import com.android.imageprocess.logic.util.getCurrentTime
 import com.android.imageprocess.logic.util.rotateBitmap
+import com.android.imageprocess.ui.camalb.BackgroundAdapter
 import com.android.imageprocess.ui.login.ImageViewModel
 import java.io.File
-import java.time.LocalDateTime
 
 class CameraAlbumActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraAlbumBinding
 
+    private lateinit var adapter: BackgroundAdapter
+
     val viewModel by lazy { ViewModelProvider(this).get(ImageViewModel::class.java) }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint("ResourceAsColor", "UseCompatLoadingForDrawables")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +48,19 @@ class CameraAlbumActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-
+        initBackgrounds()
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvBackground.layoutManager = layoutManager
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        adapter = BackgroundAdapter(this,viewModel.backgroundList)
+        binding.rvBackground.adapter = adapter
+        //获取用户名称
         val UserAccount = intent.getStringExtra("UserAccount")
+        //监听背景颜色变化
+        viewModel.backgroundColor.observe(this, Observer { color->
+            Log.d("cococo",color.toString())
+            binding.relativelayout.background = this.getDrawable(color)
+        })
         //设置导航栏
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
@@ -144,9 +161,32 @@ class CameraAlbumActivity : AppCompatActivity() {
             android.R.id.home -> binding.drawerLayout.openDrawer(GravityCompat.START)
             R.id.backup -> Toast.makeText(this, "backup btn", Toast.LENGTH_SHORT).show()
             R.id.delete -> Toast.makeText(this, "delete btn", Toast.LENGTH_SHORT).show()
-            R.id.settings -> Toast.makeText(this, "settings btn", Toast.LENGTH_SHORT).show()
+            R.id.settings -> {
+                Toast.makeText(this, "settings btn", Toast.LENGTH_SHORT).show()
+                binding.llBackground.visibility = View.VISIBLE
+            }
         }
         return true
+    }
+
+    //初始化背景颜色列表
+    private fun initBackgrounds() {
+        viewModel.backgroundList.clear()
+        val backgrounds = mutableListOf(
+            Background("淡黄",R.drawable.bg_paleyellow),
+            Background("象牙",R.drawable.bg_ivory),
+            Background("粉红",R.drawable.bg_pink),
+            Background("银灰",R.drawable.bg_silivergrey),
+            Background("灰色",R.drawable.bg_grey),
+            Background("淡蓝",R.drawable.bg_paleblue),
+            Background("亮蓝",R.drawable.bg_lightblue),
+            Background("棕色",R.drawable.bg_brown),
+            Background("淡紫",R.drawable.bg_palepurple),
+            Background("瑰红",R.drawable.bg_rosered),
+            Background("碧绿",R.drawable.bg_verdure),
+            Background("弱绿",R.drawable.bg_palegreen),)
+
+        viewModel.backgroundList.addAll(backgrounds)
     }
 
 

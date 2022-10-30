@@ -37,7 +37,7 @@ class BackgroundFragment : Fragment() {
         val layoutManager = LinearLayoutManager(activity)
         binding.rvBackground.layoutManager = layoutManager
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        adapter = BackgroundAdapter(this,viewModel.backgroundList)
+        //adapter = BackgroundAdapter(this,viewModel.backgroundList)
         binding.rvBackground.adapter = adapter
     }
     //初始化背景颜色列表

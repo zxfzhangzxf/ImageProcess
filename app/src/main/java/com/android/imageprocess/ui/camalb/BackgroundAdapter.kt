@@ -12,7 +12,7 @@ import com.android.imageprocess.R
 import com.android.imageprocess.logic.model.Background
 import com.android.imageprocess.logic.util.showToast
 
-class BackgroundAdapter(private val fragment: Fragment,private val backgroundList:List<Background>) :
+class BackgroundAdapter(private val activity: CameraAlbumActivity,private val backgroundList:List<Background>) :
     RecyclerView.Adapter<BackgroundAdapter.ViewHolder>(){
 
 
@@ -32,6 +32,8 @@ class BackgroundAdapter(private val fragment: Fragment,private val backgroundLis
             val background = backgroundList[position]
             val colorId = colorList[position]
             "切换平台颜色为${background.backgroundName}".showToast()
+            activity.viewModel.setBackgroundColor(colorId)
+            viewHolder.tvBackground.setTextColor(colorId)
         }
         return viewHolder
     }
