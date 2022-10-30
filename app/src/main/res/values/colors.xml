@@ -7,4 +7,17 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="淡黄">#FFFFF68F</color>
+    <color name="象牙">#FFFFFFF0</color>
+    <color name="粉红">#FFFFC1C1</color>
+    <color name="银灰">#FFC0C0C0</color>
+    <color name="灰色">#FF808080</color>
+    <color name="淡蓝">#FFB2DfEE</color>
+    <color name="亮蓝">#FF87CEFA</color>
+    <color name="棕色">#FF8B7355</color>
+    <color name="淡紫">#FFCD96CD</color>
+    <color name="瑰红">#FFEE799F</color>
+    <color name="碧绿">#FF7FFFDA</color>
+    <color name="弱绿">#FF98F898</color>
+
 </resources>

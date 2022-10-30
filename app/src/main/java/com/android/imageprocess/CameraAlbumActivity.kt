@@ -1,5 +1,6 @@
 package com.android.imageprocess
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -19,6 +20,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.android.imageprocess.databinding.ActivityCameraAlbumBinding
 import com.android.imageprocess.logic.util.getCurrentTime
@@ -32,6 +34,7 @@ class CameraAlbumActivity : AppCompatActivity() {
 
     val viewModel by lazy { ViewModelProvider(this).get(ImageViewModel::class.java) }
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +84,7 @@ class CameraAlbumActivity : AppCompatActivity() {
             //指定只选择图片
             intent.type = "image/*"
             startActivityForResult(intent,viewModel.OPEN_ALBUM)
+
         }
     }
 
@@ -144,4 +148,6 @@ class CameraAlbumActivity : AppCompatActivity() {
         }
         return true
     }
+
+
 }

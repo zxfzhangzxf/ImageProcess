@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,11 +22,13 @@
                 app:layout_scrollFlags="scroll|enterAlways|snap"/>
         </com.google.android.material.appbar.AppBarLayout>
         <RelativeLayout
+            android:id="@+id/relativelayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffffff">
 
             <ScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true">

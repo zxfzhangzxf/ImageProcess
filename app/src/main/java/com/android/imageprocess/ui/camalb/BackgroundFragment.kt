@@ -40,16 +40,21 @@ class BackgroundFragment : Fragment() {
         adapter = BackgroundAdapter(this,viewModel.backgroundList)
         binding.rvBackground.adapter = adapter
     }
-
+    //初始化背景颜色列表
     private fun initBackgrounds() {
         viewModel.backgroundList.clear()
-        val backgrounds = mutableListOf(Background("淡黄",R.drawable.ic_camera_alt_deep_purple_600_24dp),
-            Background("淡黄",R.drawable.ic_camera_alt_deep_purple_600_24dp),
-            Background("淡黄",R.drawable.ic_camera_alt_deep_purple_600_24dp),
-            Background("淡黄",R.drawable.ic_camera_alt_deep_purple_600_24dp),
-            Background("淡黄",R.drawable.ic_camera_alt_deep_purple_600_24dp),
-            Background("淡黄",R.drawable.ic_camera_alt_deep_purple_600_24dp),
-            Background("淡黄",R.drawable.ic_camera_alt_deep_purple_600_24dp),)
+        val backgrounds = mutableListOf(Background("淡黄",R.drawable.bg_paleyellow),
+            Background("象牙",R.drawable.bg_ivory),
+            Background("粉红",R.drawable.bg_pink),
+            Background("银灰",R.drawable.bg_silivergrey),
+            Background("灰色",R.drawable.bg_grey),
+            Background("淡蓝",R.drawable.bg_paleblue),
+            Background("亮蓝",R.drawable.bg_lightblue),
+            Background("棕色",R.drawable.bg_brown),
+            Background("淡紫",R.drawable.bg_palepurple),
+            Background("瑰红",R.drawable.bg_rosered),
+            Background("碧绿",R.drawable.bg_verdure),
+            Background("弱绿",R.drawable.bg_palegreen),)
 
         viewModel.backgroundList.addAll(backgrounds)
     }
